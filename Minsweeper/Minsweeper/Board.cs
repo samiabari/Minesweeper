@@ -55,14 +55,14 @@
 
         private void IncrementAdjacentSquares(int x, int y)
         {
-            int startX = Math.Max(0, x - 1);
-            int startY = Math.Max(0, y - 1);
-            int endX = Math.Min(gridSize - 1, x + 1);
-            int endY = Math.Min(gridSize - 1, y + 1);
+            int lowerBoundRow = Math.Max(0, x - 1);
+            int lowerBoundCol = Math.Max(0, y - 1);
+            int upperBoundRow = Math.Min(gridSize - 1, x + 1);
+            int upperBoundCol = Math.Min(gridSize - 1, y + 1);
 
-            for (int i = startX; i <= endX; i++)
+            for (int i = lowerBoundRow; i <= upperBoundRow; i++)
             {
-                for (int j = startY; j <= endY; j++)
+                for (int j = lowerBoundCol; j <= upperBoundCol; j++)
                 {
                     if (grid[i, j] != -1)
                     {
@@ -208,7 +208,6 @@
                         Console.Write("_ ");
                     }
                 }
-
                 Console.WriteLine();
             }
         }
