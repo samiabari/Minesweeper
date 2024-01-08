@@ -41,24 +41,24 @@
             int minesPlaced = 0;
             while (minesPlaced < numberOfMines)
             {
-                int x = random.Next(gridSize);
-                int y = random.Next(gridSize);
+                int row = random.Next(gridSize);
+                int col = random.Next(gridSize);
 
-                if (grid[x, y] != -1)
+                if (grid[row, col] != -1)
                 {
-                    grid[x, y] = -1;
-                    IncrementAdjacentSquares(x, y);
+                    grid[row, col] = -1;
+                    IncrementAdjacentSquares(row, col);
                     minesPlaced++;
                 }
             }
         }
 
-        private void IncrementAdjacentSquares(int x, int y)
+        private void IncrementAdjacentSquares(int row, int col)
         {
-            int lowerBoundRow = Math.Max(0, x - 1);
-            int lowerBoundCol = Math.Max(0, y - 1);
-            int upperBoundRow = Math.Min(gridSize - 1, x + 1);
-            int upperBoundCol = Math.Min(gridSize - 1, y + 1);
+            int lowerBoundRow = Math.Max(0, col - 1);
+            int lowerBoundCol = Math.Max(0, col - 1);
+            int upperBoundRow = Math.Min(gridSize - 1, row + 1);
+            int upperBoundCol = Math.Min(gridSize - 1, col + 1);
 
             for (int i = lowerBoundRow; i <= upperBoundRow; i++)
             {
@@ -84,7 +84,8 @@
                 do {
                     Console.Write("\nSelect a square to reveal (e.g. A1): ");
                     selectedSquare = Console.ReadLine().ToUpper();
-                } while (!CheckValidSquareInput(selectedSquare));
+                } 
+                while (!CheckValidSquareInput(selectedSquare));
                 
                 if (revealedSquare[selectedRow, selectedCol])
                 {
@@ -99,6 +100,10 @@
                     return;
                 }
 
+                if (grid[selectedRow, selectedCol] != -1 && !revealedSquare[selectedRow, selectedCol])
+                {
+                    Console.WriteLine("This square contains " + grid[selectedRow, selectedCol] + " adjacent mines.");
+                }
                 RevealSquare(selectedRow, selectedCol);
             }
            
@@ -115,6 +120,7 @@
                 return false;
             }
             else {
+
                 int x = input[0] - 'A';
                 int y = input[1] - '1';
 
@@ -133,32 +139,26 @@
 
         
 
-        private void RevealSquare(int x, int y)
+        private void RevealSquare(int row, int col)
         {
-            if (revealedSquare[selectedRow, selectedCol])
+            if (revealedSquare[row, col])
             {
                 return;
             }
 
-            revealedSquare[x, y] = true;
-            
-            if (grid[x, y] != -1)
-            {
-                Console.WriteLine("This square contains " + grid[x, y] + " adjacent mines.");
-            }
-            
+            revealedSquare[row, col] = true;
             mineLessSquare--;
 
-            if (grid[x, y] == 0)
+            if (grid[row, col] == 0)
             {
-                int startX = Math.Max(0, x - 1);
-                int startY = Math.Max(0, y - 1);
-                int endX = Math.Min(gridSize - 1, x + 1);
-                int endY = Math.Min(gridSize - 1, y + 1);
+                int lowerBoundRow = Math.Max(0, row - 1);
+                int lowerBoundCol = Math.Max(0, col - 1);
+                int upperBoundRow = Math.Min(gridSize - 1, row + 1);
+                int upperBoundCol = Math.Min(gridSize - 1, col + 1);
 
-                for (int i = startX; i <= endX; i++)
+                for (int i = lowerBoundRow; i <= upperBoundRow; i++)
                 {
-                    for (int j = startY; j <= endY; j++)
+                    for (int j = lowerBoundCol; j <= upperBoundCol; j++)
                     {
                         RevealSquare(i, j);
                     }
@@ -196,7 +196,7 @@
                     {
                         if (grid[i, j] == -1)
                         {
-                            Console.Write("* ");
+                            Console.Write("_ ");
                         }
                         else
                         {
