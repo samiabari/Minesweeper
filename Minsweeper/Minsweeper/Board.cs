@@ -87,12 +87,6 @@
                 } 
                 while (!CheckValidSquareInput(selectedSquare));
                 
-                if (revealedSquare[selectedRow, selectedCol])
-                {
-                    Console.WriteLine("This square has already been uncovered.");
-                    continue;
-                }
-
                 if (grid[selectedRow, selectedCol] == -1)
                 {
                     userInputCount = 0;
@@ -121,23 +115,29 @@
             }
             else {
 
-                int x = input[0] - 'A';
-                int y = input[1] - '1';
+                int row = input[0] - 'A';
+                int col = input[1] - '1';
 
-                if (x < 0 || x >= gridSize || y < 0 || y >= gridSize)
+                if (row < 0 || row >= gridSize || col < 0 || col >= gridSize)
                 {
                     Console.WriteLine("Incorrect input, Out of grid Size");
                     return false;
                 }
                 else {
-                    selectedRow = x;
-                    selectedCol = y;
-                    return true;
+
+                    if (revealedSquare[row, col])
+                    {
+                        Console.WriteLine("This square has already been uncovered.");
+                        return false;
+                    }
+                    else {
+                        selectedRow = row;
+                        selectedCol = col;
+                        return true;
+                    }
                 }
             }
         }
-
-        
 
         private void RevealSquare(int row, int col)
         {
