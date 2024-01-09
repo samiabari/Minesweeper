@@ -1,6 +1,9 @@
-﻿namespace Minsweeper
+﻿using Minsweeper.IRepository;
+using Minsweeper.IService;
+
+namespace Minsweeper.Service
 {
-    class Board
+    public class BoardService : IBoardService
     {
         private int[,] grid;
         private bool[,] revealedSquare;
@@ -10,66 +13,21 @@
         private int userInputCount = 0;
         private int selectedRow;
         private int selectedCol;
-        public Board(int size, int mines)
+        private readonly IBoardRepository boardRepository;
+        private readonly InputValidatorService validator;
+
+        public BoardService(int size, int mines, IBoardRepository repository)
         {
             gridSize = size;
             numberOfMines = mines;
             grid = new int[size, size];
             revealedSquare = new bool[size, size];
             mineLessSquare = size * size - mines;
+            boardRepository = repository;
+            validator = new InputValidatorService();
 
-            CreateGrid();
-            PlaceMines();
-        }
-
-        private void CreateGrid()
-        {
-            for (int i = 0; i < gridSize; i++)
-            {
-                for (int j = 0; j < gridSize; j++)
-                {
-                    grid[i, j] = 0;
-                    revealedSquare[i, j] = false;
-                }
-            }
-        }
-
-        private void PlaceMines()
-        {
-            Random random = new Random();
-
-            int minesPlaced = 0;
-            while (minesPlaced < numberOfMines)
-            {
-                int row = random.Next(gridSize);
-                int col = random.Next(gridSize);
-
-                if (grid[row, col] != -1)
-                {
-                    grid[row, col] = -1;
-                    IncrementAdjacentSquares(row, col);
-                    minesPlaced++;
-                }
-            }
-        }
-
-        private void IncrementAdjacentSquares(int row, int col)
-        {
-            int lowerBoundRow = Math.Max(0, col - 1);
-            int lowerBoundCol = Math.Max(0, col - 1);
-            int upperBoundRow = Math.Min(gridSize - 1, row + 1);
-            int upperBoundCol = Math.Min(gridSize - 1, col + 1);
-
-            for (int i = lowerBoundRow; i <= upperBoundRow; i++)
-            {
-                for (int j = lowerBoundCol; j <= upperBoundCol; j++)
-                {
-                    if (grid[i, j] != -1)
-                    {
-                        grid[i, j]++;
-                    }
-                }
-            }
+            boardRepository.CreateGrid(size, grid, revealedSquare);
+            boardRepository.PlaceMines(grid, revealedSquare, numberOfMines);
         }
 
         public void Start()
@@ -77,16 +35,18 @@
             string selectedSquare;
             while (mineLessSquare > 0)
             {
-
                 DisplayGrid();
                 userInputCount = 1;
-                
-                do {
+
+                do
+                {
                     Console.Write("\nSelect a square to reveal (e.g. A1): ");
                     selectedSquare = Console.ReadLine().ToUpper();
-                } 
-                while (!CheckValidSquareInput(selectedSquare));
-                
+                } while (!validator.CheckValidSquareInput(selectedSquare, gridSize, revealedSquare));
+
+                selectedRow = selectedSquare[0] - (char.IsUpper(selectedSquare[0]) ? 'A' : 'a');
+                selectedCol = int.Parse(selectedSquare.Substring(1)) - 1;
+
                 if (grid[selectedRow, selectedCol] == -1)
                 {
                     userInputCount = 0;
@@ -99,52 +59,18 @@
                     Console.WriteLine("This square contains " + grid[selectedRow, selectedCol] + " adjacent mines.");
                     RevealSquare(selectedRow, selectedCol);
                 }
-                
             }
-           
+
             DisplayGrid();
             userInputCount = 0;
             Console.WriteLine("\nCongratulations, you have won the game!");
-        }
-
-        private bool CheckValidSquareInput(string input)
-        {
-            if (input.Length != 2 || !char.IsLetter(input[0]) || !char.IsDigit(input[1]))
-            {
-                Console.WriteLine("Incorrect input.");
-                return false;
-            }
-            else {
-
-                int row = input[0] - 'A';
-                int col = input[1] - '1';
-
-                if (row < 0 || row >= gridSize || col < 0 || col >= gridSize)
-                {
-                    Console.WriteLine("Incorrect input, Out of grid Size");
-                    return false;
-                }
-                else {
-
-                    if (revealedSquare[row, col])
-                    {
-                        Console.WriteLine("You have chosen already revealed square.");
-                        return false;
-                    }
-                    else {
-                        selectedRow = row;
-                        selectedCol = col;
-                        return true;
-                    }
-                }
-            }
         }
 
         private void RevealSquare(int row, int col)
         {
             if (revealedSquare[row, col])
             {
-                return;
+                return; // If the square is already revealed.
             }
 
             revealedSquare[row, col] = true;
@@ -169,7 +95,6 @@
 
         private void DisplayGrid()
         {
-
             if (userInputCount == 0)
             {
                 Console.WriteLine("\nHere is your minefield:");
@@ -184,7 +109,6 @@
             {
                 Console.Write(i + " ");
             }
-
             Console.WriteLine();
 
             for (int i = 0; i < gridSize; i++)

@@ -1,15 +1,15 @@
-﻿namespace Minsweeper
+﻿using Minsweeper.IService;
+using Minsweeper.Service;
+
+namespace Minsweeper
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-           Minsweeper game =new Minsweeper();
-           game.StartGame();
+            // Calling game to start
+            IMinesweeperService game = new MinesweeperService();
+            game.StartGame();
         }
-
-
-
-
     }
 }
