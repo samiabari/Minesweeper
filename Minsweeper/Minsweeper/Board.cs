@@ -97,8 +97,9 @@
                 if (grid[selectedRow, selectedCol] != -1 && !revealedSquare[selectedRow, selectedCol])
                 {
                     Console.WriteLine("This square contains " + grid[selectedRow, selectedCol] + " adjacent mines.");
+                    RevealSquare(selectedRow, selectedCol);
                 }
-                RevealSquare(selectedRow, selectedCol);
+                
             }
            
             DisplayGrid();
@@ -127,7 +128,7 @@
 
                     if (revealedSquare[row, col])
                     {
-                        Console.WriteLine("This square has already been uncovered.");
+                        Console.WriteLine("You have chosen already revealed square.");
                         return false;
                     }
                     else {

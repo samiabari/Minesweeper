@@ -37,7 +37,6 @@ namespace Minsweeper
                 Console.WriteLine("Enter the number of mines to place on the grid (maximum is 35% of the total squares): ");
                 input = Console.ReadLine();
             } while (!CheckValidIntNMineNumber(input));
-
         }
 
         public bool CheckInputIsInt(string input)
@@ -78,7 +77,6 @@ namespace Minsweeper
                 return false;
             }
         }
-
 
         private bool CheckValidIntNMineNumber(string input)
         {
