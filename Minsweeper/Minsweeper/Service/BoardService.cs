@@ -134,7 +134,7 @@ namespace Minsweeper.Service
 
                 for (int j = 0; j < gridSize; j++)
                 {
-                    if (revealedSquare[i, j])
+                    if (revealedSquare[i, j] || grid[selectedRow, selectedCol] == -1)
                     {
                         if (grid[i, j] == -1)
                         {
