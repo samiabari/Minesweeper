@@ -1,7 +1,7 @@
 ﻿/// <author>Samia Bari</author>
 /// <file>IBoardService.cs</file>
 /// <summary>
-/// Description: This interface provides method to start game play .
+/// Description: This interface provides method to start game play.
 /// </summary>
 namespace Minsweeper.IService
 {

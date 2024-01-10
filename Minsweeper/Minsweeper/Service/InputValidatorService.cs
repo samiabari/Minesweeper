@@ -1,16 +1,31 @@
-﻿using Minsweeper.IService;
-using System.Text.RegularExpressions;
-
+﻿/// <author>Samia Bari</author>
+/// <file>InputValidatorService.cs</file>
+/// <summary>
+/// Description: This Class implements IInputValidatorService and provides method to validate user inputs.
+/// </summary>
 namespace Minsweeper.Service
 {
+    using System.Text.RegularExpressions;
+    using Minsweeper.IService;
+
+    /// <summary>
+    /// This Class implements IInputValidatorService and provides method to validate user inputs.
+    /// </summary>
     public class InputValidatorService : IInputValidatorService
     {
         private string pattern = @"^\d+$";
         private int gridSize;
 
-        #region Checking Square Selection Validity
+        /// <summary>
+        /// Checks if the input string corresponds to a valid square on the game grid.
+        /// </summary>
+        /// <param name="input">The user input to reveal the grid square (e.g., A1, B2).</param>
+        /// <param name="gridSize">The size of the game grid.</param>
+        /// <param name="revealedSquare">The grid to maintain revealed and unrevealed squares.</param>
+        /// <returns>True if the input is a valid square, otherwise false.</returns>
         public bool CheckValidSquareInput(string input, int gridSize, bool[,] revealedSquare)
         {
+            // checks given string is in valid format or not.
             if (!CheckString(input))
             {
                 return false;
@@ -34,9 +49,11 @@ namespace Minsweeper.Service
             return true;
         }
 
-        #endregion
-
-        #region input type format validation
+        /// <summary>
+        /// Checks if the input string is an integer.
+        /// </summary>
+        /// <param name="input">The user input string.</param>
+        /// <returns>True if the input is an integer, otherwise false.</returns>
         public bool CheckInputIsInt(string input)
         {
             bool result = true;
@@ -53,6 +70,11 @@ namespace Minsweeper.Service
             return result;
         }
 
+        /// <summary>
+        /// Checks the validity of a string input.
+        /// </summary>
+        /// <param name="input">The user input string.</param>
+        /// <returns>True if the input is valid, otherwise false.</returns>
         public bool CheckString(string input)
         {
             if (!string.IsNullOrEmpty(input))
@@ -77,9 +99,11 @@ namespace Minsweeper.Service
             return false;
         }
 
-        #endregion
-
-        #region grid Validation
+        /// <summary>
+        /// Checks if the input string represents a valid grid size.
+        /// </summary>
+        /// <param name="input">The user input string for grid size.</param>
+        /// <returns>True if the grid size input is valid, otherwise false.</returns>
         public bool CheckValidGridSizeInput(string input)
         {
             int size;
@@ -101,6 +125,11 @@ namespace Minsweeper.Service
             }
         }
 
+        /// <summary>
+        /// Checks if the provided size is a valid grid size for the game.
+        /// </summary>
+        /// <param name="size">The grid size.</param>
+        /// <returns>True if the size is valid, otherwise false.</returns>
         public bool CheckValidGridSize(int size)
         {
             if (size < 2)
@@ -120,9 +149,12 @@ namespace Minsweeper.Service
             }
         }
 
-        #endregion
-
-        #region Number of mines input Validations
+        /// <summary>
+        /// Checks if the provided number of mines is valid for the given grid size.
+        /// </summary>
+        /// <param name="number">The number of mines.</param>
+        /// <param name="gridSize">The size of the game grid.</param>
+        /// <returns>True if the number of mines is valid, otherwise false.</returns>
         public bool CheckValidMineNumber(int number, int gridSize)
         {
             int totalSquares = gridSize * gridSize;
@@ -149,6 +181,11 @@ namespace Minsweeper.Service
             }
         }
 
+        /// <summary>
+        /// Checks if the input string is a valid number of mines for the grid.
+        /// </summary>
+        /// <param name="input">The user input for the number of mines.</param>
+        /// <returns>True if the input for number of mines is valid, otherwise false.</returns>
         public bool CheckValidMineNumberInput(string? input)
         {
             int number;
@@ -169,7 +206,5 @@ namespace Minsweeper.Service
                 return false;
             }
         }
-
-        #endregion
     }
 }
