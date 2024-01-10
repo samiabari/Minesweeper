@@ -49,8 +49,10 @@ namespace Minsweeper.Service
 
                 if (grid[selectedRow, selectedCol] == -1)
                 {
+                    RevealSquare(selectedRow, selectedCol);
+                    DisplayGrid();
                     userInputCount = 0;
-                    Console.WriteLine("Oh no, you detonated a mine! Game over.");
+                    Console.WriteLine("\nOh no, you detonated a mine! Game over.");
                     return;
                 }
 
@@ -77,6 +79,21 @@ namespace Minsweeper.Service
             mineLessSquare--;
 
             if (grid[row, col] == 0)
+            {
+                int lowerBoundRow = Math.Max(0, row - 1);
+                int lowerBoundCol = Math.Max(0, col - 1);
+                int upperBoundRow = Math.Min(gridSize - 1, row + 1);
+                int upperBoundCol = Math.Min(gridSize - 1, col + 1);
+
+                for (int i = lowerBoundRow; i <= upperBoundRow; i++)
+                {
+                    for (int j = lowerBoundCol; j <= upperBoundCol; j++)
+                    {
+                        RevealSquare(i, j);
+                    }
+                }
+            }
+            else if (grid[selectedRow, selectedCol] == -1)
             {
                 int lowerBoundRow = Math.Max(0, row - 1);
                 int lowerBoundCol = Math.Max(0, col - 1);
@@ -121,7 +138,7 @@ namespace Minsweeper.Service
                     {
                         if (grid[i, j] == -1)
                         {
-                            Console.Write("_ ");
+                            Console.Write("M ");
                         }
                         else
                         {
