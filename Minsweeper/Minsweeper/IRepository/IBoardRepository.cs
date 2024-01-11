@@ -1,4 +1,6 @@
-﻿/// <author>Samia Bari</author>
+﻿using Minsweeper.Models;
+
+/// <author>Samia Bari</author>
 /// <file>IBoardRepository.cs</file>
 /// <summary>
 /// Description: This interface provides methods to create the game grid and place mines within it.
@@ -16,7 +18,7 @@ namespace Minsweeper.IRepository
         /// <param name="size"> size of the grid. </param>
         /// <param name="grid"> two-dimensional array to represent the game board.</param>
         /// <param name="revealedSquare"> two-dimensional array to represent the revealed square, same size as the grid size. </param>
-        void CreateGrid(int size, int[,] grid, bool[,] revealedSquare);
+        Board CreateGrid(Board board);
 
         /// <summary>
         /// initially places the mines randomely and increase the values of adjacent squares.
@@ -24,6 +26,6 @@ namespace Minsweeper.IRepository
         /// <param name="grid"> two-dimensional array to represent the game board. </param>
         /// <param name="revealedSquare"> two-dimensional array to represent the revealed square, same size as the grid size. </param>
         /// <param name="numberOfMines"> Number of mines given by the user. </param>
-        void PlaceMines(int[,] grid, bool[,] revealedSquare, int numberOfMines);
+        Board PlaceMines(Board board);
     }
 }

@@ -7,6 +7,7 @@ namespace Minsweeper.Service
 {
     using Minsweeper.IRepository;
     using Minsweeper.IService;
+    using Minsweeper.Models;
     using Minsweeper.Repository;
 
     /// <summary>
@@ -15,12 +16,12 @@ namespace Minsweeper.Service
     public class MinesweeperService : IMinesweeperService
     {
         private readonly InputValidatorService validator;
-        private int gridSize;
-        private int numberOfMines;
+        public Board _Board;
 
         public MinesweeperService()
         {
             validator = new InputValidatorService();
+            _Board = new Board();
         }
 
         /// <summary>
@@ -31,10 +32,10 @@ namespace Minsweeper.Service
             // Loops to through the game.
             while (true)
             {
-                InitialInput();
+                _Board = InitialInput();
                 IBoardRepository boardRepo = new BoardRepository();
-                IBoardService game = new BoardService(gridSize, numberOfMines, boardRepo);
-                game.StartGame();
+                IBoardService game = new BoardService(_Board, boardRepo);
+                game.StartTakingSquareInput();
 
                 Console.WriteLine("Press any key to play again...");
                 Console.ReadKey();
@@ -42,12 +43,13 @@ namespace Minsweeper.Service
             }
         }
 
+
         /// <summary>
         /// Takes initial inputs to generate the game grid.
         /// This method collects user inputs required for generating the game grid, such as grid size
         /// and the number of mines to be placed on the grid.
         /// </summary>
-        public void InitialInput()
+        public Board InitialInput()
         {
             string input;
             Console.WriteLine("Welcome to Minesweeper!");
@@ -59,7 +61,7 @@ namespace Minsweeper.Service
                 input = Console.ReadLine();
             } while (!validator.CheckValidGridSizeInput(input));
 
-            gridSize = Convert.ToInt32(input);
+            _Board.GridSize = Convert.ToInt32(input);
 
             // Loops until user doesn't give valid input.
             do
@@ -68,7 +70,8 @@ namespace Minsweeper.Service
                 input = Console.ReadLine();
             } while (!validator.CheckValidMineNumberInput(input));
 
-            numberOfMines = Convert.ToInt32(input);
+            _Board.NumberOfMines = Convert.ToInt32(input);
+            return _Board;
         }
     }
 }

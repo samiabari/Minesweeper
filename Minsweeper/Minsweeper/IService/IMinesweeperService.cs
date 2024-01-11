@@ -5,6 +5,8 @@
 /// </summary>
 namespace Minsweeper.IService
 {
+    using Minsweeper.Models;
+
     /// <summary>
     /// This interface provides methods to start initially or resume the Minesweeper game.
     /// </summary>
@@ -20,6 +22,6 @@ namespace Minsweeper.IService
         /// This method collects user inputs required for generating the game grid, such as grid size
         /// and the number of mines to be placed on the grid.
         /// </summary>
-        void InitialInput();
+        Board InitialInput();
     }
 }

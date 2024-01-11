@@ -13,6 +13,6 @@ namespace Minsweeper.IService
         /// <summary>
         /// this method contains the functionality of letting users to take square input.
         /// </summary>
-        void StartGame();
+        void StartTakingSquareInput();
     }
 }

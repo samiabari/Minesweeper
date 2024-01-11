@@ -6,6 +6,7 @@
 namespace Minsweeper.Repository
 {
     using Minsweeper.IRepository;
+    using Minsweeper.Models;
 
     /// <summary>
     /// This Repository implements IBoardRepository.
@@ -13,23 +14,33 @@ namespace Minsweeper.Repository
     /// </summary>
     public class BoardRepository : IBoardRepository
     {
+        public Board _Board { get; set; }
+
+        public BoardRepository()
+        {
+            _Board = new Board();
+        }
+
+        // Constructor to initialize the Board instance
         /// <summary>
         /// Creates the grid as per user's given grid size. and initialize it by 0 and setting unrevealed.
         /// </summary>
         /// <param name="size"> size of the grid. </param>
         /// <param name="grid"> two-dimensional array to represent the game board.</param>
         /// <param name="revealedSquare"> two-dimensional array to represent the revealed square, same size as the grid size. </param>
-        public void CreateGrid(int size, int[,] grid, bool[,] revealedSquare)
+        public Board CreateGrid(Board board)
         {
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < board.GridSize; i++)
             {
-                for (int j = 0; j < size; j++)
+                for (int j = 0; j < board.GridSize; j++)
                 {
                     // places 0 initially for all the squares and makes non revealed.
-                    grid[i, j] = 0;
-                    revealedSquare[i, j] = false;
+                    board.Grid[i, j] = 0;
+                    board.RevealedSquare[i, j] = false;
                 }
             }
+            _Board = board;
+            return _Board;
         }
 
         /// <summary>
@@ -38,30 +49,33 @@ namespace Minsweeper.Repository
         /// <param name="grid"> two-dimensional array to represent the game board. </param>
         /// <param name="revealedSquare"> two-dimensional array to represent the revealed square, same size as the grid size. </param>
         /// <param name="numberOfMines"> Number of mines given by the user. </param>
-        public void PlaceMines(int[,] grid, bool[,] revealedSquare, int numberOfMines)
+        public Board PlaceMines(Board board)
         {
             Random random = new Random();
 
-            int gridSize = grid.GetLength(0);
+            int gridSize = board.Grid.GetLength(0);
 
             int minesPlaced = 0;
 
             // loop continues until all the mines are placed randomly.
-            while (minesPlaced < numberOfMines)
+            while (minesPlaced < board.NumberOfMines)
             {
                 int row = random.Next(gridSize);
                 int col = random.Next(gridSize);
 
-                if (grid[row, col] != -1)
+                if (board.Grid[row, col] != -1)
                 {
                     // places -1 as the mines in the random grid[row, col].
-                    grid[row, col] = -1;
+                    board.Grid[row, col] = -1;
 
                     // after placing mine increases the values of adjacent squares.
-                    this.IncrementAdjacentSquares(grid, gridSize, row, col);
+                    this.IncrementAdjacentSquares(board, row, col);
                     minesPlaced++;
                 }
+
             }
+            _Board = board;
+            return _Board;
         }
 
         /// <summary>
@@ -71,13 +85,13 @@ namespace Minsweeper.Repository
         /// <param name="gridSize">The size grid.</param>
         /// <param name="row"> Row index of the square to check for adjacent mines.</param>
         /// <param name="col"> Column index of the square to check for adjacent mines.</param>
-        private void IncrementAdjacentSquares(int[,] grid, int gridSize, int row, int col)
+        private void IncrementAdjacentSquares(Board board, int row, int col)
         {
             // Bounds for adjacent squares
             int lowerBoundRow = Math.Max(0, row - 1);
             int lowerBoundCol = Math.Max(0, col - 1);
-            int upperBoundRow = Math.Min(gridSize - 1, row + 1);
-            int upperBoundCol = Math.Min(gridSize - 1, col + 1);
+            int upperBoundRow = Math.Min(board.GridSize - 1, row + 1);
+            int upperBoundCol = Math.Min(board.GridSize - 1, col + 1);
 
             // Iterate through adjacent squares and increment mine counts if not a mine (-1)
             for (int i = lowerBoundRow; i <= upperBoundRow; i++)
@@ -85,9 +99,9 @@ namespace Minsweeper.Repository
                 for (int j = lowerBoundCol; j <= upperBoundCol; j++)
                 {
                     // Checks if the square is a mine or not, if not then increases its value
-                    if (grid[i, j] != -1)
+                    if (board.Grid[i, j] != -1)
                     {
-                        grid[i, j]++;
+                        board.Grid[i, j]++;
                     }
                 }
             }
