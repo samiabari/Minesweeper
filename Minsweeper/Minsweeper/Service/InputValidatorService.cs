@@ -13,7 +13,8 @@ namespace Minsweeper.Service
     /// </summary>
     public class InputValidatorService : IInputValidatorService
     {
-        private string pattern = @"^\d+$";
+        private string positivePattern = @"^[0-9]\d*$";
+        private string negativePattern = @"^-?\d+$";
         private int gridSize;
 
         /// <summary>
@@ -62,10 +63,17 @@ namespace Minsweeper.Service
                 result = false;
                 Console.WriteLine("Incorrect input");
             }
-            else if (!Regex.IsMatch(input, pattern))
+            else if (!Regex.IsMatch(input, positivePattern))
             {
+                if (Regex.IsMatch(input, negativePattern))
+                {
+                    Console.WriteLine("This input should not contain any sign (+/-).");
+                }
+                else {
+                    Console.WriteLine("Incorrect input");
+                }
                 result = false;
-                Console.WriteLine("Incorrect input");
+                
             }
             return result;
         }
