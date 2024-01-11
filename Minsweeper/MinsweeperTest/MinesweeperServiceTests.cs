@@ -25,7 +25,7 @@ namespace MinsweeperTest
 
 
         [Test]
-        public void InitialInputTest_ShouldReturnBoard()
+        public void InitialInputTest()
         {
             var minesweeperServiceMock = new Mock<MinesweeperService> { CallBase = true };
 

@@ -17,5 +17,17 @@
         public int SelectedRow { get; set; }
 
         public int SelectedCol { get; set; }
+
+        public Board()
+        {
+
+        }
+
+        public Board(int gridSize)
+        {
+            GridSize = gridSize;
+            Grid = new int[gridSize, gridSize];
+            RevealedSquare = new bool[gridSize, gridSize];
+        }
     }
 }

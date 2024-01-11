@@ -85,7 +85,7 @@ namespace Minsweeper.Repository
         /// <param name="gridSize">The size grid.</param>
         /// <param name="row"> Row index of the square to check for adjacent mines.</param>
         /// <param name="col"> Column index of the square to check for adjacent mines.</param>
-        private void IncrementAdjacentSquares(Board board, int row, int col)
+        public void IncrementAdjacentSquares(Board board, int row, int col)
         {
             // Bounds for adjacent squares
             int lowerBoundRow = Math.Max(0, row - 1);
