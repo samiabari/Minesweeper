@@ -9,6 +9,7 @@ namespace Minsweeper.Service
     using Minsweeper.IService;
     using Minsweeper.Models;
     using Minsweeper.Repository;
+    using Minsweeper.TestMethod;
 
     /// <summary>
     /// This MinesweeperService class implements and provides methods to start initially or resume the Minesweeper game.
@@ -17,7 +18,7 @@ namespace Minsweeper.Service
     {
         private readonly InputValidatorService validator;
         public Board _Board;
-
+        public IConsole Console { get; set; } = new ConsoleWrapper();
         public MinesweeperService()
         {
             validator = new InputValidatorService();
@@ -49,7 +50,7 @@ namespace Minsweeper.Service
         /// This method collects user inputs required for generating the game grid, such as grid size
         /// and the number of mines to be placed on the grid.
         /// </summary>
-        public Board InitialInput()
+        public virtual Board InitialInput()
         {
             string input;
             Console.WriteLine("Welcome to Minesweeper!");
