@@ -155,7 +155,7 @@ namespace Minsweeper.Service
         /// <param name="number">The number of mines.</param>
         /// <param name="gridSize">The size of the game grid.</param>
         /// <returns>True if the number of mines is valid, otherwise false.</returns>
-        public bool CheckValidMineNumber(int number, int gridSize)
+        public bool CheckValidMineNumber(int mineNumber, int gridSize)
         {
             int totalSquares = gridSize * gridSize;
             double maxMineDouble = totalSquares * (35.0 / 100);
@@ -165,12 +165,17 @@ namespace Minsweeper.Service
                 maximumMineNumber = 1;
             }
 
-            if (number <= 0)
+            if (gridSize < 0)
+            {
+                return false;
+            }
+
+            if (mineNumber <= 0)
             {
                 Console.WriteLine("There must be at least 1 mine.");
                 return false;
             }
-            else if (number > maximumMineNumber)
+            else if (mineNumber > maximumMineNumber)
             {
                 Console.WriteLine("Maximum number is 35% of total squares.");
                 return false;
