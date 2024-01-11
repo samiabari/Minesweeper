@@ -9,7 +9,8 @@
 3. Mines are denoted as -1 to and it is places randomly using Random() C# class and all the adjacent squares of the mines are incremented by setting the upper and lower bound.
 4. Squares are reveal if user selects a 0 containing square then then program will keep revealing the squares until it finds any squares that has adjacent mine. This is done using recursion to check adjacent unrevealed 0's.
 5. If user choses a square with mine then the whole board should be shown with numbers and Mines denoted with 'M'. this is also done with recursion to reveal until all the squares are reveald.
-6. If user selects all the squares without losing then the mines should be hidden but the numbers boxes should be revealed. This is done by checking in every step that the selected square has mine or not.  
+6. If user selects all the squares without losing then the mines should be hidden but the numbers boxes should be revealed. This is done by checking in every step that the selected square has mine or not. 
+7. To check the inside Validion class is working fine, Unit test project is added. And the tests are done using NUnit Test Framework. 
 
 
 # App Opening requirement
