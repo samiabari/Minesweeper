@@ -1,7 +1,7 @@
 ﻿using Minsweeper.IRepository;
 using Minsweeper.IService;
 using Minsweeper.Service;
-using Minsweeper.TestMethod;
+using Minsweeper.TestHelpers;
 using Moq;
 using System;
 using System.Collections.Generic;

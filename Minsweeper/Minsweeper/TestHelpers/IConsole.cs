@@ -1,6 +1,6 @@
 ﻿
 
-namespace Minsweeper.TestMethod
+namespace Minsweeper.TestHelpers
 {
     public interface IConsole
     {

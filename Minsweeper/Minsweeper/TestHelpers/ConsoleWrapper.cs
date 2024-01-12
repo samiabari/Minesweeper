@@ -1,5 +1,5 @@
 ﻿
-namespace Minsweeper.TestMethod
+namespace Minsweeper.TestHelpers
 {
     public class ConsoleWrapper : IConsole
     {

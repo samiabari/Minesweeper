@@ -9,7 +9,7 @@ namespace Minsweeper.Service
     using Minsweeper.IService;
     using Minsweeper.Models;
     using Minsweeper.Repository;
-    using Minsweeper.TestMethod;
+    using Minsweeper.TestHelpers;
 
     /// <summary>
     /// This MinesweeperService class implements and provides methods to start initially or resume the Minesweeper game.
